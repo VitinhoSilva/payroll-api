@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class Payrool {
+public class Payroll {
 
     private String userName;
     private String description;

@@ -1,6 +1,6 @@
 package br.jvprojetos17.payrollapi.service;
 
-import br.jvprojetos17.payrollapi.domain.Payrool;
+import br.jvprojetos17.payrollapi.domain.Payroll;
 import br.jvprojetos17.payrollapi.exception.ResourceNotFoundException;
 import br.jvprojetos17.payrollapi.feignClients.UserFeign;
 import feign.FeignException;
@@ -19,18 +19,18 @@ public class PayrollService {
     private final Environment env;
     private final UserFeign userFeign;
 
-    public Payrool getPayment(Long userId, Payrool payrool) {
+    public Payroll getPayment(Long userId, Payroll payroll) {
         log.info("PAYROLL_SERVICE ::: Get request on " + env.getProperty("local.server.port"));
 
         try {
             var user = userFeign.findById(userId).getBody();
             if (Objects.nonNull(user)) {
-                return new Payrool(
+                return new Payroll(
                         user.getName(),
-                        payrool.getDescription(),
-                        payrool.getHourlyPrice(),
-                        payrool.getWorkedHours(),
-                        payrool.getWorkedHours() * user.getHourlyPrice()
+                        payroll.getDescription(),
+                        user.getHourlyPrice(),
+                        payroll.getWorkedHours(),
+                        payroll.getWorkedHours() * user.getHourlyPrice()
                 );
             }
         } catch (FeignException.NotFound e) {
